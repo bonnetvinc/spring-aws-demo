@@ -18,9 +18,9 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Login to AWS
-        uses: aws-actions/configure-aws-credentials@v4 # More information on this action can be found below in the 'AWS Credentials' section
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::739275476435:oidc-provider/token.actions.githubusercontent.com:role/GitHub-action-spring-aws-demo
+          role-to-assume: arn:aws:iam::739275476435:role/GitHub-action-spring-aws-demo
           # aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           # aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
