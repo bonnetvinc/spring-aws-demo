@@ -10,7 +10,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    
+
     runs-on: ubuntu-latest
 
     steps:
@@ -21,21 +21,19 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::739275476435:role/github-actions-role
-          # aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          # aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          # aws-region: ${{ secrets.AWS_REGION }}
-          
+          audience: sts.amazonaws.com
+          aws-region: ${{ secrets.AWS_REGION }}
 
-      # - name: Set up JDK 21
-      #   uses: actions/setup-java@v3
-      #   with:
-      #     java-version: '21'
-      #     distribution: 'temurin'
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: "21"
+          distribution: "temurin"
 
-      # - name: Build Spring Boot app
-      #   run: | 
-      #     cd app
-      #     mvn clean package -DskipTests
+      - name: Build Spring Boot app
+        run: |
+          cd app
+          mvn clean package -DskipTests
 
       # - name: Configure AWS credentials
       #   uses: aws-actions/configure-aws-credentials@v4
@@ -44,16 +42,16 @@ jobs:
       #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
       #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      # - name: Login to Amazon ECR
-      #   run: |
-      #     aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+      - name: Login to Amazon ECR
+        run: |
+          aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
 
-      # - name: Build and push Docker image
-      #   run: |
-      #     cd app
-      #     docker build -t ${{ secrets.ECR_REPO_NAME }} .
-      #     docker tag ${{ secrets.ECR_REPO_NAME }}:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPO_NAME }}:latest
-      #     docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPO_NAME }}:latest
+      - name: Build and push Docker image
+        run: |
+          cd app
+          docker build -t ${{ secrets.ECR_REPO_NAME }} .
+          docker tag ${{ secrets.ECR_REPO_NAME }}:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPO_NAME }}:latest
+          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPO_NAME }}:latest
 
       # - name: Update ECS service
       #   run: |
