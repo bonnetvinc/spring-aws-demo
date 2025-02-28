@@ -20,9 +20,8 @@ jobs:
       - name: Login to AWS
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::739275476435:role/github-actions-role
-          audience: sts.amazonaws.com
-          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github-actions-role
+          aws-region: ca-central-1
 
       - name: Set up JDK 21
         uses: actions/setup-java@v3
