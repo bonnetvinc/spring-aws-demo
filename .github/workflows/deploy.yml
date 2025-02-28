@@ -38,7 +38,7 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t ${{ variable.ECR_REPO_NAME }} .
+          docker build -t ${{ variables.ECR_REPO_NAME }} .
           docker tag $ECR_REPO_NAME:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/$ECR_REPO_NAME:latest
           docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/$ECR_REPO_NAME:latest
 
